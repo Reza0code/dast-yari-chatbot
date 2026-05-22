@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dast-Yari Chatbot</title>
+  <script src="knowledge.js"></script>
+</head>
+<body>
+  <h1>Dast-Yari Chatbot</h1>
+
+  <input id="question" type="text" placeholder="Write your question..." style="width:300px;">
+  <button onclick="askBot()">Ask</button>
+
+  <p><strong>Answer:</strong></p>
+  <div id="answer"></div>
+
+  <script>
+    async function askBot() {
+      const question = document.getElementById("question").value;
+      document.getElementById("answer").innerText = "Thinking...";
+
+      const response = await fetch("http://localhost:3001/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer freellmapi-df9b14c2a114eff451062f51702e1903ab7f163955af436b"
+        },
+        body: JSON.stringify({
+          model: "auto",
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are Dast-Yari assistant.Answer in the same language as the user question. Only answer using the information below. Do not invent information. If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n" +
+                window.DAST_YARI_KNOWLEDGE
+            },
+            {
+              role: "user",
+              content: question
+            }
+          ]
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.choices && data.choices[0]) {
+        document.getElementById("answer").innerText = data.choices[0].message.content;
+      } else {
+        document.getElementById("answer").innerText = "Något gick fel. Kontrollera att FreeLLMAPI körs.";
+      }
+    }
+  </script>
+</body>
+</html>
