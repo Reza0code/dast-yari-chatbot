@@ -5,51 +5,73 @@
   <title>Dast-Yari Chatbot</title>
   <script src="knowledge.js"></script>
 </head>
+
 <body>
   <h1>Dast-Yari Chatbot</h1>
 
-  <input id="question" type="text" placeholder="Write your question..." style="width:300px;">
+  <input id="question" type="text"
+  placeholder="Write your question..."
+  style="width:300px;">
+
   <button onclick="askBot()">Ask</button>
 
   <p><strong>Answer:</strong></p>
   <div id="answer"></div>
 
-  <script>
-    async function askBot() {
-      const question = document.getElementById("question").value;
-      document.getElementById("answer").innerText = "Thinking...";
+<script>
+async function askBot() {
 
-      const response = await fetch("https://dast-yari-chatbot.onrender.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer freellmapi-df9b14c2a114eff451062f51702e1903ab7f163955af436b"
-        },
-        body: JSON.stringify({
-          model: "auto",
-          messages: [
-            {
-              role: "system",
-              content:
-                "You are Dast-Yari assistant.Answer in the same language as the user question. Only answer using the information below. Do not invent information. If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n" +
-                window.DAST_YARI_KNOWLEDGE
-            },
-            {
-              role: "user",
-              content: question
-            }
-          ]
-        })
-      });
+const question =
+document.getElementById("question").value;
 
-      const data = await response.json();
+document.getElementById("answer").innerText =
+"Thinking...";
 
-      if (data.choices && data.choices[0]) {
-        document.getElementById("answer").innerText = data.choices[0].message.content;
-      } else {
-        document.getElementById("answer").innerText = "Något gick fel. Kontrollera att FreeLLMAPI körs.";
-      }
-    }
-  </script>
+const response = await fetch(
+"https://dast-yari-chatbot.onrender.com/v1/chat/completions",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer freellmapi-61fde5992c0582f68b1d7101ff8d4d6983de4134244171cc"
+},
+
+body:JSON.stringify({
+model:"auto",
+
+messages:[
+{
+role:"system",
+
+content:
+"You are Dast-Yari assistant. Answer in the same language as the user question. Only answer using the information below. Do not invent information. If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n"
++ window.DAST_YARI_KNOWLEDGE
+},
+
+{
+role:"user",
+content:question
+}
+
+]
+
+})
+
+});
+
+const data=await response.json();
+
+if(data.choices && data.choices[0]){
+document.getElementById("answer").innerText=
+data.choices[0].message.content;
+}
+else{
+document.getElementById("answer").innerText=
+"Error";
+}
+
+}
+</script>
+
 </body>
 </html>
