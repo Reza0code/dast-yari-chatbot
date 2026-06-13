@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { keysRouter } from './routes/keys.js';
 import { modelsRouter } from './routes/models.js';
@@ -11,6 +12,7 @@ import { analyticsRouter } from './routes/analytics.js';
 import { healthRouter } from './routes/health.js';
 import { settingsRouter } from './routes/settings.js';
 import { errorHandler } from './middleware/errorHandler.js';
+import { getUnifiedApiKey } from './db/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -46,7 +48,61 @@ export function createApp() {
     },
   }));
   app.use(express.json({ limit: '1mb' }));
+app.get('/api/dastyari', (_req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Dast-Yari route works'
+  });
+});
 
+app.post('/api/dastyari', async (req, res) => {
+  try {
+    const question = req.body?.question;
+
+    if (!question) {
+      res.status(400).json({ error: 'Question is required' });
+      return;
+    }
+
+    const knowledge = fs.readFileSync(path.resolve(__dirname, '../../dastyari.txt'), 'utf8');
+
+    const response = await fetch(`http://localhost:${process.env.PORT ?? 3001}/v1/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getUnifiedApiKey()}`
+      },
+      body: JSON.stringify({
+        model: 'auto',
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You are Dast-Yari assistant. Answer in the same language as the user question. Only answer using the information below. Do not invent information. If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n' +
+              knowledge
+          },
+          {
+            role: 'user',
+            content: question
+          }
+        ]
+      })
+    });
+
+    const data = await response.json();
+    const answer = data.choices?.[0]?.message?.content;
+
+    if (!answer) {
+      res.status(500).json({ error: 'No answer from model', details: data });
+      return;
+    }
+
+    res.json({ answer });
+  } catch (err) {
+    console.error('Dast-Yari endpoint error:', err);
+    res.status(500).json({ error: 'Dast-Yari endpoint failed' });
+  }
+});
   // API routes
   app.use('/api/keys', keysRouter);
   app.use('/api/models', modelsRouter);
