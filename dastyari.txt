@@ -1,28 +1,45 @@
 Dast-Yari organization information
 
-Dast-Yari is a voluntary organization helping people in Afghanistan.
+Name:
+Dast-Yari
 
-The organization supports:
-- families in need
-- sick people who cannot afford healthcare
+Purpose:
+Dast-Yari is a voluntary community-based organization created to support people in need in Afghanistan.
+
+Who Dast-Yari helps:
+Dast-Yari supports:
+- families living in difficult financial situations
+- people who are sick and cannot afford healthcare
 - widows
 - orphan children
-- emergency situations
+- people affected by urgent or emergency situations
 
 Membership:
-To become a member:
+To become a member, a person should:
 - contact Dast-Yari
-- agree with the organization rules
+- accept the organization’s rules
 - contribute at least 100 SEK per month
-- membership is voluntary
-- voluntary
-- minimum contribution: 100 SEK monthly
-- if a member misses more than 3 months in one year membership becomes inactive
+- understand that membership is voluntary
+
+Membership activity:
+- The minimum contribution is 100 SEK per month.
+- If a member misses more than 3 months of contribution within one year, the membership can become inactive.
 
 Values:
+Dast-Yari is based on:
 - humanity
 - trust
 - transparency
+- responsibility
+- helping people with respect and dignity
 
-If information does not exist:
-Contact: utbildningkonto2019@gmail.com
+Transparency:
+Dast-Yari aims to handle contributions responsibly and clearly, so members can trust how the support is used.
+
+Contact:
+If information is missing or someone wants to contact Dast-Yari, use:
+utbildningkonto2019@gmail.com
+
+Fallback answer:
+If the answer is not available in this information, say:
+Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com
