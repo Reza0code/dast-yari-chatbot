@@ -63,6 +63,15 @@ app.post('/api/dastyari', async (req, res) => {
       return;
     }
 
+    const normalizedQuestion = String(question).trim().toLowerCase();
+
+    if (['hej', 'hello', 'hi', 'salam', 'salaam', 'سلام'].includes(normalizedQuestion)) {
+      res.json({
+        answer: 'Hej och välkommen till Dast-Yari chatbot! Jag kan ge dig information om Dast-Yari, föreningens syfte, medlemskap, värderingar och vilka vi hjälper.'
+      });
+      return;
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
