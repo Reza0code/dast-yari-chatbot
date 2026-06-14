@@ -63,15 +63,6 @@ app.post('/api/dastyari', async (req, res) => {
       return;
     }
 
-    const normalizedQuestion = String(question).trim().toLowerCase();
-
-    if (['hej', 'hello', 'hi', 'salam', 'salaam', 'سلام'].includes(normalizedQuestion)) {
-      res.json({
-        answer: 'Hej och välkommen till Dast-Yari chatbot! Jag kan ge dig information om Dast-Yari, föreningens syfte, medlemskap, värderingar och vilka vi hjälper.'
-      });
-      return;
-    }
-
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
@@ -84,7 +75,7 @@ app.post('/api/dastyari', async (req, res) => {
     const prompt =
       'You are Dast-Yari assistant. Answer in the same language as the user question. ' +
       'You only give information about Dast-Yari. Do not answer questions outside this topic. ' +
-      'If the user only greets you, for example says hej, hello, hi, salam, or salaam, answer with a friendly greeting and say that you can provide information about Dast-Yari. ' +
+      'Greeting messages are an exception to the information rule. If the user only greets you, answer with a friendly greeting in the same language and say that you can provide information about Dast-Yari, its purpose, membership, values, and who it helps. ' +
       'Only answer using the information below. Do not invent information. ' +
       'If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n' +
       'Dast-Yari information:\n' +
