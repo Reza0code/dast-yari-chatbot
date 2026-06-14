@@ -111,13 +111,13 @@ app.post('/api/dastyari', async (req, res) => {
 
       if (code === 429 || status === 'RESOURCE_EXHAUSTED') {
         res.status(429).json({
-          error: 'Chatboten är tillfälligt överbelastad. Försök igen om en liten stund.'
+          error: 'Chatbot temporarily unavailable. Please try again soon.'
         });
         return;
       }
 
       res.status(500).json({
-        error: 'Chatboten kunde inte svara just nu. Försök igen senare.'
+        error: 'Chatbot could not answer right now. Please try again later.'
       });
       return;
     }
