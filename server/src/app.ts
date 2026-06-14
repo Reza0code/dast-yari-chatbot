@@ -12,7 +12,6 @@ import { analyticsRouter } from './routes/analytics.js';
 import { healthRouter } from './routes/health.js';
 import { settingsRouter } from './routes/settings.js';
 import { errorHandler } from './middleware/errorHandler.js';
-import { getUnifiedApiKey } from './db/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -64,36 +63,48 @@ app.post('/api/dastyari', async (req, res) => {
       return;
     }
 
+    const apiKey = process.env.GEMINI_API_KEY;
+
+    if (!apiKey) {
+      res.status(500).json({ error: 'GEMINI_API_KEY is missing' });
+      return;
+    }
+
     const knowledge = fs.readFileSync(path.resolve(__dirname, '../../dastyari.txt'), 'utf8');
 
-    const response = await fetch(`http://localhost:${process.env.PORT ?? 3001}/v1/chat/completions`, {
+    const prompt =
+      'You are Dast-Yari assistant. Answer in the same language as the user question. ' +
+      'Only answer using the information below. Do not invent information. ' +
+      'If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n' +
+      'Dast-Yari information:\n' +
+      knowledge +
+      '\n\nUser question:\n' +
+      question;
+
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getUnifiedApiKey()}`
+        'X-goog-api-key': apiKey
       },
       body: JSON.stringify({
-        model: 'auto',
-        messages: [
+        contents: [
           {
-            role: 'system',
-            content:
-              'You are Dast-Yari assistant. Answer in the same language as the user question. Only answer using the information below. Do not invent information. If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n' +
-              knowledge
-          },
-          {
-            role: 'user',
-            content: question
+            parts: [
+              {
+                text: prompt
+              }
+            ]
           }
         ]
       })
     });
 
     const data = await response.json();
-    const answer = data.choices?.[0]?.message?.content;
+    const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!answer) {
-      res.status(500).json({ error: 'No answer from model', details: data });
+      res.status(500).json({ error: 'No answer from Gemini', details: data });
       return;
     }
 
