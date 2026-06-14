@@ -74,6 +74,8 @@ app.post('/api/dastyari', async (req, res) => {
 
     const prompt =
       'You are Dast-Yari assistant. Answer in the same language as the user question. ' +
+      'You only give information about Dast-Yari. Do not answer questions outside this topic. ' +
+      'If the user only greets you, for example says hej, hello, hi, salam, or salaam, answer with a friendly greeting and say that you can provide information about Dast-Yari. ' +
       'Only answer using the information below. Do not invent information. ' +
       'If information is missing say: Den informationen finns inte ännu. Kontakta oss via e-post: utbildningkonto2019@gmail.com\n\n' +
       'Dast-Yari information:\n' +
