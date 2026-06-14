@@ -106,7 +106,19 @@ app.post('/api/dastyari', async (req, res) => {
     const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!answer) {
-      res.status(500).json({ error: 'No answer from Gemini', details: data });
+      const status = data.error?.status;
+      const code = data.error?.code;
+
+      if (code === 429 || status === 'RESOURCE_EXHAUSTED') {
+        res.status(429).json({
+          error: 'Chatboten är tillfälligt överbelastad. Försök igen om en liten stund.'
+        });
+        return;
+      }
+
+      res.status(500).json({
+        error: 'Chatboten kunde inte svara just nu. Försök igen senare.'
+      });
       return;
     }
 
