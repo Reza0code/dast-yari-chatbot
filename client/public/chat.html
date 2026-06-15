@@ -221,6 +221,45 @@
       color: #222;
     }
 
+    .language-section {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.30);
+    }
+
+    .language-label {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .language-button {
+      padding: 8px 10px;
+      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.22);
+      color: #222;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .language-button:hover {
+      background: rgba(255, 255, 255, 0.40);
+    }
+
+    .language-button.active {
+      background: rgba(34, 34, 34, 0.85);
+      color: white;
+    }
+
     .sidebar-contact {
       margin-top: 18px;
       padding-top: 14px;
@@ -338,6 +377,18 @@
   <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
 
   <div id="sidebar" class="sidebar">
+    <div class="language-section">
+      <div class="language-label">Language</div>
+      <div class="language-grid">
+        <button class="language-button active" onclick="setLanguage('English', this)">English</button>
+        <button class="language-button" onclick="setLanguage('فارسی / دری', this)">فارسی / دری</button>
+        <button class="language-button" onclick="setLanguage('Svenska', this)">Svenska</button>
+        <button class="language-button" onclick="setLanguage('Deutsch', this)">Deutsch</button>
+        <button class="language-button" onclick="setLanguage('Français', this)">Français</button>
+        <button class="language-button" onclick="setLanguage('Norsk', this)">Norsk</button>
+      </div>
+    </div>
+
     <div class="sidebar-title">Ask about</div>
     <button class="topic-button" onclick="askTopic('Explain Dast-Yari purpose shortly.')">Purpose</button>
     <button class="topic-button" onclick="askTopic('Explain Dast-Yari membership shortly.')">Membership</button>
@@ -429,6 +480,18 @@ You can write in Swedish, English, Persian/Dari, or another language.</div>`;
       return message;
     }
 
+    let selectedLanguage = "English";
+
+    function setLanguage(language, button) {
+      selectedLanguage = language;
+
+      document.querySelectorAll(".language-button").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+    }
+
     function toggleSidebar() {
       document.getElementById("sidebar").classList.toggle("open");
       document.getElementById("overlay").classList.toggle("open");
@@ -446,7 +509,7 @@ You can write in Swedish, English, Persian/Dari, or another language.</div>`;
 
     function askTopic(topicQuestion) {
       const input = document.getElementById("question");
-      input.value = topicQuestion;
+      input.value = `Answer in ${selectedLanguage}: ${topicQuestion}`;
       closeSidebar();
       askBot();
     }
