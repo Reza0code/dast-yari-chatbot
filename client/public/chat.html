@@ -75,7 +75,12 @@
       background: #444;
     }
 
+    .primary-button {
+      font-weight: bold;
+    }
+
     .clear-button {
+      padding: 14px 14px;
       background: rgba(255, 255, 255, 0.22);
       color: #222;
       border: 1px solid rgba(255, 255, 255, 0.35);
@@ -285,9 +290,14 @@
       }
 
       .input-row {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
         gap: 8px;
         margin-bottom: 14px;
+      }
+
+      input {
+        grid-column: 1 / -1;
       }
 
       input,
@@ -353,7 +363,7 @@
 
       <div class="input-row">
         <input id="question" type="text" placeholder="Write your question..." onkeydown="handleKey(event)">
-        <button onclick="askBot()">Ask</button>
+        <button onclick="askBot()" class="primary-button">Ask</button>
         <button onclick="clearChat()" class="clear-button">Clear</button>
         <button onclick="copyLastAnswer()" class="clear-button">Copy</button>
       </div>
