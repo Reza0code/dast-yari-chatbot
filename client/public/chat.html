@@ -75,6 +75,16 @@
       background: #444;
     }
 
+    .clear-button {
+      background: rgba(255, 255, 255, 0.22);
+      color: #222;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .clear-button:hover {
+      background: rgba(255, 255, 255, 0.35);
+    }
+
     .answer-box {
       background: rgba(255, 255, 255, 0.18);
       border: 1px solid rgba(255, 255, 255, 0.22);
@@ -339,6 +349,7 @@
       <div class="input-row">
         <input id="question" type="text" placeholder="Write your question..." onkeydown="handleKey(event)">
         <button onclick="askBot()">Ask</button>
+        <button onclick="clearChat()" class="clear-button">Clear</button>
       </div>
 
       <div id="chat" class="chat-box">
@@ -359,6 +370,14 @@ You can write in Swedish, English, Persian/Dari, or another language.</div>
       if (event.key === "Enter") {
         askBot();
       }
+    }
+
+    function clearChat() {
+      const chat = document.getElementById("chat");
+      chat.innerHTML = `<div class="message bot-message">Welcome / خوش آمدید / Välkommen
+
+Ask me about Dast-Yari, membership, voting, support rules, transparency, or the constitution.
+You can write in Swedish, English, Persian/Dari, or another language.</div>`;
     }
 
     function addMessage(text, type) {
