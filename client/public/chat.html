@@ -125,28 +125,67 @@
       text-align: left;
     }
 
-    .topics {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
-      align-items: flex-start;
-      gap: 8px;
-      margin: 12px 0 18px;
+    .menu-button {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 20;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -280px;
+      width: 260px;
+      height: 100vh;
+      z-index: 30;
+      background: rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-right: 1px solid rgba(255, 255, 255, 0.28);
+      box-shadow: 8px 0 28px rgba(0, 0, 0, 0.22);
+      padding: 20px;
+      box-sizing: border-box;
+      transition: left 0.25s ease;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #222;
     }
 
     .topic-button {
-      padding: 8px 12px;
-      font-size: 14px;
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
       border: 1px solid rgba(255, 255, 255, 0.35);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.20);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.25);
       color: #222;
       cursor: pointer;
       text-align: left;
     }
 
     .topic-button:hover {
-      background: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.40);
     }
 
     @media (max-width: 600px) {
@@ -193,13 +232,18 @@
         font-size: 15px;
       }
 
-      .topics {
-        margin-bottom: 14px;
+      .menu-button {
+        top: 12px;
+        left: 12px;
+      }
+
+      .sidebar {
+        width: 245px;
+        left: -265px;
       }
 
       .topic-button {
-        font-size: 13px;
-        padding: 7px 10px;
+        font-size: 14px;
       }
     }
 
@@ -207,6 +251,18 @@
 </head>
 
 <body>
+  <button class="menu-button" onclick="toggleSidebar()">☰</button>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-title">Ask about</div>
+    <button class="topic-button" onclick="askTopic('Explain Dast-Yari purpose shortly.')">Purpose</button>
+    <button class="topic-button" onclick="askTopic('Explain Dast-Yari membership shortly.')">Membership</button>
+    <button class="topic-button" onclick="askTopic('Explain Dast-Yari voting rules shortly.')">Voting</button>
+    <button class="topic-button" onclick="askTopic('Who does Dast-Yari help?')">Who we help</button>
+    <button class="topic-button" onclick="askTopic('Explain Dast-Yari financial transparency shortly.')">Transparency</button>
+    <button class="topic-button" onclick="askTopic('How can someone contact Dast-Yari?')">Contact</button>
+  </div>
+
   <div class="page">
     <div class="card">
       <h1>Dast-Yari Chatbot</h1>
@@ -218,15 +274,6 @@
       <div class="input-row">
         <input id="question" type="text" placeholder="Write your question..." onkeydown="handleKey(event)">
         <button onclick="askBot()">Ask</button>
-      </div>
-
-      <div class="topics">
-        <button class="topic-button" onclick="askTopic('Explain Dast-Yari purpose shortly.')">Purpose</button>
-        <button class="topic-button" onclick="askTopic('Explain Dast-Yari membership shortly.')">Membership</button>
-        <button class="topic-button" onclick="askTopic('Explain Dast-Yari voting rules shortly.')">Voting</button>
-        <button class="topic-button" onclick="askTopic('Who does Dast-Yari help?')">Who we help</button>
-        <button class="topic-button" onclick="askTopic('Explain Dast-Yari financial transparency shortly.')">Transparency</button>
-        <button class="topic-button" onclick="askTopic('How can someone contact Dast-Yari?')">Contact</button>
       </div>
 
       <div id="chat" class="chat-box">
@@ -257,9 +304,18 @@
       return message;
     }
 
+    function toggleSidebar() {
+      document.getElementById("sidebar").classList.toggle("open");
+    }
+
+    function closeSidebar() {
+      document.getElementById("sidebar").classList.remove("open");
+    }
+
     function askTopic(topicQuestion) {
       const input = document.getElementById("question");
       input.value = topicQuestion;
+      closeSidebar();
       askBot();
     }
 
