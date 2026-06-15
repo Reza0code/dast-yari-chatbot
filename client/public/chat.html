@@ -350,6 +350,7 @@
         <input id="question" type="text" placeholder="Write your question..." onkeydown="handleKey(event)">
         <button onclick="askBot()">Ask</button>
         <button onclick="clearChat()" class="clear-button">Clear</button>
+        <button onclick="copyLastAnswer()" class="clear-button">Copy</button>
       </div>
 
       <div id="chat" class="chat-box">
@@ -378,6 +379,22 @@ You can write in Swedish, English, Persian/Dari, or another language.</div>
 
 Ask me about Dast-Yari, membership, voting, support rules, transparency, or the constitution.
 You can write in Swedish, English, Persian/Dari, or another language.</div>`;
+    }
+
+    async function copyLastAnswer() {
+      const botMessages = document.querySelectorAll(".bot-message");
+      const lastBotMessage = botMessages[botMessages.length - 1];
+
+      if (!lastBotMessage) {
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(lastBotMessage.innerText);
+        addMessage("Copied last answer.", "bot");
+      } catch (err) {
+        addMessage("Could not copy the answer.", "bot");
+      }
     }
 
     function addMessage(text, type) {
