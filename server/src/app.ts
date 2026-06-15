@@ -63,6 +63,22 @@ app.post('/api/dastyari', async (req, res) => {
       return;
     }
 
+    const normalizedQuestion = String(question).trim().toLowerCase();
+
+    const greetings: Record<string, string> = {
+      'hej': 'Hej och välkommen! Jag kan ge dig information om Dast-Yari, medlemskap, röstning, värderingar och vilka vi hjälper.',
+      'hello': 'Hello and welcome! I can give you information about Dast-Yari, membership, voting, values, and who we help.',
+      'hi': 'Hi and welcome! I can give you information about Dast-Yari, membership, voting, values, and who we help.',
+      'سلام': 'سلام و خوش آمدید! من می‌توانم درباره دست‌یاری، عضویت، رأی‌گیری، ارزش‌ها و کسانی که کمک می‌کنیم معلومات بدهم.',
+      'salam': 'سلام و خوش آمدید! من می‌توانم درباره دست‌یاری، عضویت، رأی‌گیری، ارزش‌ها و کسانی که کمک می‌کنیم معلومات بدهم.',
+      'salaam': 'سلام و خوش آمدید! من می‌توانم درباره دست‌یاری، عضویت، رأی‌گیری، ارزش‌ها و کسانی که کمک می‌کنیم معلومات بدهم.'
+    };
+
+    if (greetings[normalizedQuestion]) {
+      res.json({ answer: greetings[normalizedQuestion] });
+      return;
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
