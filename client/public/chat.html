@@ -319,7 +319,7 @@
     <button class="topic-button" onclick="askTopic('Explain Dast-Yari voting rules shortly.')">Voting</button>
     <button class="topic-button" onclick="askTopic('Who does Dast-Yari help?')">Who we help</button>
     <button class="topic-button" onclick="askTopic('Explain Dast-Yari financial transparency shortly.')">Transparency</button>
-    <button class="topic-button" onclick="askTopic('How can someone contact Dast-Yari?')">Contact</button>
+    <button class="topic-button" onclick="showContact()">Contact</button>
 
     <div class="sidebar-contact">
       <strong>Contact</strong><br>
@@ -384,6 +384,11 @@ You can write in Swedish, English, Persian/Dari, or another language.</div>
     function closeSidebar() {
       document.getElementById("sidebar").classList.remove("open");
       document.getElementById("overlay").classList.remove("open");
+    }
+
+    function showContact() {
+      closeSidebar();
+      addMessage("Contact Dast-Yari:\nEmail: utbildningkonto2019@gmail.com\nWebsite: https://sites.google.com/view/dast-yari", "bot");
     }
 
     function askTopic(topicQuestion) {
