@@ -145,6 +145,61 @@
     .topic-button:hover {
       background: rgba(255, 255, 255, 0.35);
     }
+
+    @media (max-width: 600px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .page {
+        padding: 16px 10px;
+      }
+
+      .card {
+        padding: 18px;
+        border-radius: 18px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .subtitle {
+        font-size: 14px;
+        margin-bottom: 18px;
+      }
+
+      .input-row {
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      input,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .chat-box {
+        max-height: 55vh;
+      }
+
+      .message {
+        max-width: 92%;
+        font-size: 15px;
+      }
+
+      .topics {
+        margin-bottom: 14px;
+      }
+
+      .topic-button {
+        font-size: 13px;
+        padding: 7px 10px;
+      }
+    }
+
   </style>
 </head>
 
