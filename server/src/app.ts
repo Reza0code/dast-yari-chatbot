@@ -79,6 +79,29 @@ app.post('/api/dastyari', async (req, res) => {
       return;
     }
 
+    const contactKeywords = [
+      'email',
+      'e-mail',
+      'contact',
+      'website',
+      'site',
+      'webbplats',
+      'hemsida',
+      'kontakt',
+      'ایمیل',
+      'ايميل',
+      'سایت',
+      'وبسایت',
+      'تماس'
+    ];
+
+    if (contactKeywords.includes(normalizedQuestion)) {
+      res.json({
+        answer: 'Contact Dast-Yari:\nEmail: utbildningkonto2019@gmail.com\nWebsite: https://sites.google.com/view/dast-yari'
+      });
+      return;
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
@@ -127,7 +150,7 @@ app.post('/api/dastyari', async (req, res) => {
 
       if (code === 429 || status === 'RESOURCE_EXHAUSTED') {
         res.status(429).json({
-          error: 'Chatbot temporarily unavailable. Please try again soon.'
+          error: 'Temporarily unavailable / فعلاً در دسترس نیست / Tillfälligt otillgänglig. Please try again soon.'
         });
         return;
       }
